@@ -102,12 +102,13 @@ GameUI.Animation = function(sprite) {
 			var updateTransform = me.updateTransform;
 
 			if(!me.step()) {
+				sprite.setDisableRepaint(false);
+				me.restoreSpriteState();
+				
 				if(onEnd) {
 					onEnd();
 				}
 
-				sprite.setDisableRepaint(false);
-				me.restoreSpriteState();
 				if(sprite.onEndAnimation) {
 					sprite.onEndAnimation();
 				}

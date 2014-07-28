@@ -54,11 +54,11 @@ GameUI.createUISprite = function(cantkWidget, x, y, width, height, onClose, init
 	}
 
 	sprite.getMoveDeltaX = function() {
-		return this.deltaX;
+		return this.deltaMovedX;
 	}
 
 	sprite.getMoveDeltaY = function() {
-		return this.deltaY;
+		return this.deltaMovedY;
 	}
 
 	sprite.getMoveAbsDeltaX = function() {
@@ -129,8 +129,8 @@ GameUI.createUISprite = function(cantkWidget, x, y, width, height, onClose, init
 
 	sprite.handlePointerMove = function(point) {
 		if(this.lastPointerPosition) {
-			this.deltaX = point.x - this.lastPointerPosition.x;
-			this.deltaY = point.y - this.lastPointerPosition.y;
+			this.deltaMovedX = point.x - this.lastPointerPosition.x;
+			this.deltaMovedY = point.y - this.lastPointerPosition.y;
 		}
 		this.lastPointerPosition = point;
 		
@@ -142,8 +142,8 @@ GameUI.createUISprite = function(cantkWidget, x, y, width, height, onClose, init
 	}
 
 	sprite.handlePointerDown = function(point) {
-		this.deltaX = 0;
-		this.deltaY = 0;
+		this.deltaMovedX = 0;
+		this.deltaMovedY = 0;
 		this.pointerDownPosition = point;
 		this.lastPointerPosition = point;
 		
@@ -153,8 +153,8 @@ GameUI.createUISprite = function(cantkWidget, x, y, width, height, onClose, init
 	}
 	
 	sprite.handlePointerUp = function(point) {
-		this.deltaX = point.x - this.lastPointerPosition.x;
-		this.deltaY = point.y - this.lastPointerPosition.y;
+		this.deltaMovedX = point.x - this.lastPointerPosition.x;
+		this.deltaMovedY = point.y - this.lastPointerPosition.y;
 
 		this.lastPointerPosition = point;
 		

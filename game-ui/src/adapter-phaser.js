@@ -71,9 +71,10 @@ Adapter.init = function() {
 		
 		sprite.getAbsPosition = function() {
 			var point = {};
+			var pos = GameUI.getHTMLElementPosition(GameUI.view);
 
-			point.x = this.getX();
-			point.y = this.getY();
+            point.x = this.getX() + pos.left;
+            point.y = this.getY() + pos.top;
 
 			return point;
 		}
@@ -270,10 +271,12 @@ Adapter.init = function() {
 			}
 
 			var point = {};
-			point.x = pointer.x - this.position.x;
-			point.y = pointer.y - this.position.y;
+			point.x = pointer.x - this.getX();
+			point.y = pointer.y - this.getY();
 
 			this.handlePointerDown(point);
+
+			Adapter.activeSprite = sprite;
 
 			return false;
 		}
@@ -284,10 +287,12 @@ Adapter.init = function() {
 			}
 
 			var point = {};
-			point.x = pointer.x - this.position.x;
-			point.y = pointer.y - this.position.y;
+			point.x = pointer.x - this.getX();
+			point.y = pointer.y - this.getY();
 
-			return this.handlePointerMove(point);
+			this.handlePointerMove(point);
+
+			return false;
 		}
 		
 		sprite.onPointerUp = function(sprite, pointer) {
@@ -296,8 +301,10 @@ Adapter.init = function() {
 			}
 
 			var point = {};
-			point.x = pointer.x - this.position.x;
-			point.y = pointer.y - this.position.y;
+			point.x = pointer.x - this.getX();
+			point.y = pointer.y - this.getY();
+
+			Adapter.activeSprite = null;
 
 			return this.handlePointerUp(point);
 		}
@@ -313,5 +320,11 @@ Adapter.init = function() {
 
 		return sprite;
 	}
+
+	game.input.addMoveCallback(function(pointer, x, y) {
+		if(Adapter.activeSprite) {
+			Adapter.activeSprite.onPointerMove(Adapter.activeSprite, pointer);
+		}
+	});
 };
 

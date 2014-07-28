@@ -55,8 +55,11 @@ CanTK.UIElement.prototype.closeWindow = function(retInfo) {
 			if(win) {
 				win.callOnClose(retInfo);
 			}
-			GameUI.stage.removeChild(view);
-			view.onRemoved();
+
+			setTimeout(function() {
+				GameUI.stage.removeChild(view);
+				view.onRemoved();
+			}, 0);
 		});
 	}
 	else {

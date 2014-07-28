@@ -32,7 +32,7 @@ function openWindow(name, x, y, w, h) {
 	var animation = createOpenAnimation(widget);
 	animation.start();
 
-	return;
+	return widget;
 }
 
 function loadScene(name) {

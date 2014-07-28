@@ -299,9 +299,10 @@ Adapter.init = function() {
 		
 		sprite.getAbsPosition = function() {
 			var point = {};
+			var pos = GameUI.getHTMLElementPosition(GameUI.view);
 
-			point.x = this.getX();
-			point.y = this.getY();
+            point.x = this.getX() + pos.left;
+            point.y = this.getY() + pos.top;
 
 			return point;
 		}
@@ -498,10 +499,12 @@ Adapter.init = function() {
 			}
 
 			var point = {};
-			point.x = pointer.x - this.position.x;
-			point.y = pointer.y - this.position.y;
+			point.x = pointer.x - this.getX();
+			point.y = pointer.y - this.getY();
 
 			this.handlePointerDown(point);
+
+			Adapter.activeSprite = sprite;
 
 			return false;
 		}
@@ -512,11 +515,12 @@ Adapter.init = function() {
 			}
 
 			var point = {};
-			point.x = pointer.x - this.position.x;
-			point.y = pointer.y - this.position.y;
+			point.x = pointer.x - this.getX();
+			point.y = pointer.y - this.getY();
 
-			console.log("point.x:" + point.x);
-			return this.handlePointerMove(point);
+			this.handlePointerMove(point);
+
+			return false;
 		}
 		
 		sprite.onPointerUp = function(sprite, pointer) {
@@ -525,8 +529,10 @@ Adapter.init = function() {
 			}
 
 			var point = {};
-			point.x = pointer.x - this.position.x;
-			point.y = pointer.y - this.position.y;
+			point.x = pointer.x - this.getX();
+			point.y = pointer.y - this.getY();
+
+			Adapter.activeSprite = null;
 
 			return this.handlePointerUp(point);
 		}
@@ -542,6 +548,12 @@ Adapter.init = function() {
 
 		return sprite;
 	}
+
+	game.input.addMoveCallback(function(pointer, x, y) {
+		if(Adapter.activeSprite) {
+			Adapter.activeSprite.onPointerMove(Adapter.activeSprite, pointer);
+		}
+	});
 };
 
 
@@ -648,12 +660,13 @@ GameUI.Animation = function(sprite) {
 			var updateTransform = me.updateTransform;
 
 			if(!me.step()) {
+				sprite.setDisableRepaint(false);
+				me.restoreSpriteState();
+				
 				if(onEnd) {
 					onEnd();
 				}
 
-				sprite.setDisableRepaint(false);
-				me.restoreSpriteState();
 				if(sprite.onEndAnimation) {
 					sprite.onEndAnimation();
 				}
@@ -855,8 +868,11 @@ CanTK.UIElement.prototype.closeWindow = function(retInfo) {
 			if(win) {
 				win.callOnClose(retInfo);
 			}
-			GameUI.stage.removeChild(view);
-			view.onRemoved();
+
+			setTimeout(function() {
+				GameUI.stage.removeChild(view);
+				view.onRemoved();
+			}, 0);
 		});
 	}
 	else {
@@ -943,11 +959,11 @@ GameUI.createUISprite = function(cantkWidget, x, y, width, height, onClose, init
 	}
 
 	sprite.getMoveDeltaX = function() {
-		return this.deltaX;
+		return this.deltaMovedX;
 	}
 
 	sprite.getMoveDeltaY = function() {
-		return this.deltaY;
+		return this.deltaMovedY;
 	}
 
 	sprite.getMoveAbsDeltaX = function() {
@@ -1018,8 +1034,8 @@ GameUI.createUISprite = function(cantkWidget, x, y, width, height, onClose, init
 
 	sprite.handlePointerMove = function(point) {
 		if(this.lastPointerPosition) {
-			this.deltaX = point.x - this.lastPointerPosition.x;
-			this.deltaY = point.y - this.lastPointerPosition.y;
+			this.deltaMovedX = point.x - this.lastPointerPosition.x;
+			this.deltaMovedY = point.y - this.lastPointerPosition.y;
 		}
 		this.lastPointerPosition = point;
 		
@@ -1031,8 +1047,8 @@ GameUI.createUISprite = function(cantkWidget, x, y, width, height, onClose, init
 	}
 
 	sprite.handlePointerDown = function(point) {
-		this.deltaX = 0;
-		this.deltaY = 0;
+		this.deltaMovedX = 0;
+		this.deltaMovedY = 0;
 		this.pointerDownPosition = point;
 		this.lastPointerPosition = point;
 		
@@ -1042,8 +1058,8 @@ GameUI.createUISprite = function(cantkWidget, x, y, width, height, onClose, init
 	}
 	
 	sprite.handlePointerUp = function(point) {
-		this.deltaX = point.x - this.lastPointerPosition.x;
-		this.deltaY = point.y - this.lastPointerPosition.y;
+		this.deltaMovedX = point.x - this.lastPointerPosition.x;
+		this.deltaMovedY = point.y - this.lastPointerPosition.y;
 
 		this.lastPointerPosition = point;
 		
