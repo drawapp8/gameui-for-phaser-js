@@ -3,11 +3,11 @@ This project is a Game UI for phaser-js library, it is an adapter between [phase
 Online Demos
 --------------------
 
-* [Demo1](http://phaserjs.sinaapp.com/demo1/)
+* [Demo1](http://gameui.duapp.com/phaserjs/demo1/)
 
-* [Demo2](http://phaserjs.sinaapp.com/demo2/)
+* [Demo2](http://gameui.duapp.com/phaserjs/demo2/)
 
-* [Demo3](http://phaserjs.sinaapp.com/demo3/)
+* [Demo3](http://gameui.duapp.com/phaserjs/demo3/)
 
 Documentation
 --------------------
@@ -21,6 +21,6 @@ Documentation
 UI Editor
 --------------------
 
-[Game Builder](http://gamebuilder.sinaapp.com/appedit.php) is an online Game UI Builder.
+[Game Builder](http://gamebuilder.duapp.com/appedit.php) is an online Game UI Builder.
 
 
