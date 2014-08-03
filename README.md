@@ -17,6 +17,7 @@ Documentation
 
 ### [GameUI Animation](https://github.com/drawapp8/gameui-common/wiki/GameUI-Animation)
 
+### [Integration With Phaser](https://github.com/drawapp8/gameui-for-phaser-js/wiki/Integration-With-Phaser)
 
 UI Editor
 --------------------
