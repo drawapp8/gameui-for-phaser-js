@@ -19,6 +19,8 @@ Documentation
 
 ### [Integration With Phaser](https://github.com/drawapp8/gameui-for-phaser-js/wiki/Integration-With-Phaser)
 
+### [如何集成到Phaser？](https://github.com/drawapp8/gameui-for-phaser-js/wiki/%E5%A6%82%E4%BD%95%E9%9B%86%E6%88%90%E5%88%B0Phaser%EF%BC%9F)
+
 UI Editor
 --------------------
 
