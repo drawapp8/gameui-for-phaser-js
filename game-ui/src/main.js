@@ -1,8 +1,19 @@
+/*
+ * File: main.js
+ * Author:  Li XianJing <xianjimli@hotmail.com>
+ * Brief: GameUI main API 
+ * 
+ * Copyright (c) 2014  Li XianJing <xianjimli@hotmail.com>
+ * 
+ */
+
 GameUI = function() {
 
 };
 
-GameUI.preloadAssetsInUIData = function(uiData) {
+GameUI.windows = [];
+
+GameUI.preloadAssetsInUIData = function(uiData, onLoadingProgress) {
 	var images = [];
 	var wm = findWindowManager(uiData);
 
@@ -17,7 +28,7 @@ GameUI.preloadAssetsInUIData = function(uiData) {
 	});
 
 	Adapter.init();
-	Adapter.loadAssets(images);
+	Adapter.loadAssets(images, onLoadingProgress);
 
 	return images;
 }
@@ -25,10 +36,10 @@ GameUI.preloadAssetsInUIData = function(uiData) {
 GameUI.init = function(game, stage, uiData, view) {
 	var wm = findWindowManager(uiData);
 
+	GameUI.view = view;
 	GameUI.game = game;
 	GameUI.stage = stage;
 	GameUI.uiData = uiData;
-	GameUI.view = view;
 	GameUI.viewWidth = view.width;
 	GameUI.viewHeight = view.height;
 
@@ -54,8 +65,6 @@ GameUI.setStage = function(stage) {
 
 	return;
 }
-
-GameUI.windows = [];
 
 GameUI.openWindow = function(windowName, x, y, width, height, onWindowClose, initData) {
 	var cantkWidget = lookUpWidget(GameUI.rootWidget, windowName);
@@ -128,6 +137,16 @@ function foreachAsset (element, onAsset) {
 		}
 	}
 
+	var resourceNames = ["textureJsonURL", "textureURL", "skeletonJsonURL", "soundURL"];
+	for(var i = 0; i < resourceNames.length; i++) {
+		var name = resourceNames[i];
+		var src = element[name];
+		if(src) {
+			var newSrc = onAsset(src);
+			element[name] = newSrc;
+		}
+	}
+                
 	if(element.children) {
 		for(var i = 0; i < element.children.length; i++) {
 			foreachAsset(element.children[i], onAsset);
@@ -224,4 +243,4 @@ GameUI.getHTMLElementPosition = function (element) {
             width: box.width,
             height: box.height
         };
-    };
+};

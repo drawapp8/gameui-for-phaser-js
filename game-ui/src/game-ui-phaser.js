@@ -1,9 +1,20 @@
 (function(){
+/*
+ * File: main.js
+ * Author:  Li XianJing <xianjimli@hotmail.com>
+ * Brief: GameUI main API 
+ * 
+ * Copyright (c) 2014  Li XianJing <xianjimli@hotmail.com>
+ * 
+ */
+
 GameUI = function() {
 
 };
 
-GameUI.preloadAssetsInUIData = function(uiData) {
+GameUI.windows = [];
+
+GameUI.preloadAssetsInUIData = function(uiData, onLoadingProgress) {
 	var images = [];
 	var wm = findWindowManager(uiData);
 
@@ -18,7 +29,7 @@ GameUI.preloadAssetsInUIData = function(uiData) {
 	});
 
 	Adapter.init();
-	Adapter.loadAssets(images);
+	Adapter.loadAssets(images, onLoadingProgress);
 
 	return images;
 }
@@ -26,10 +37,10 @@ GameUI.preloadAssetsInUIData = function(uiData) {
 GameUI.init = function(game, stage, uiData, view) {
 	var wm = findWindowManager(uiData);
 
+	GameUI.view = view;
 	GameUI.game = game;
 	GameUI.stage = stage;
 	GameUI.uiData = uiData;
-	GameUI.view = view;
 	GameUI.viewWidth = view.width;
 	GameUI.viewHeight = view.height;
 
@@ -55,8 +66,6 @@ GameUI.setStage = function(stage) {
 
 	return;
 }
-
-GameUI.windows = [];
 
 GameUI.openWindow = function(windowName, x, y, width, height, onWindowClose, initData) {
 	var cantkWidget = lookUpWidget(GameUI.rootWidget, windowName);
@@ -129,6 +138,16 @@ function foreachAsset (element, onAsset) {
 		}
 	}
 
+	var resourceNames = ["textureJsonURL", "textureURL", "skeletonJsonURL", "soundURL"];
+	for(var i = 0; i < resourceNames.length; i++) {
+		var name = resourceNames[i];
+		var src = element[name];
+		if(src) {
+			var newSrc = onAsset(src);
+			element[name] = newSrc;
+		}
+	}
+                
 	if(element.children) {
 		for(var i = 0; i < element.children.length; i++) {
 			foreachAsset(element.children[i], onAsset);
@@ -225,7 +244,7 @@ GameUI.getHTMLElementPosition = function (element) {
             width: box.width,
             height: box.height
         };
-    };
+};
 var Adapter = {};
 
 Adapter.init = function() {
@@ -903,6 +922,62 @@ CanTK.UIElement.prototype.saveState = function() {
 	return;
 };
 
+CanTK.UIElement.prototype.setPosition = function(x, y) {
+	this.x = x;
+	this.y = y;
+
+	return;
+}
+
+Physics = CanTK.Physics;
+Physics.updateBodyElementsPosition = function(world) {
+	for (var b = world.m_bodyList; b; b = b.m_next) {
+		var element = b.element;
+
+		var p = b.GetWorldCenter();
+		if(element && element.view) {
+			var view = element.view;
+			var p = b.GetWorldCenter();
+			var a = b.GetAngle();
+
+			if(p.x || p.y) {
+				var x = Physics.toPixel(p.x) - (element.w >> 1);
+				var y = Physics.toPixel(p.y) - (element.h >> 1);
+
+				view.setX(x);
+				if(view.normalizeY) {
+					view.setY(view.normalizeY(y));
+				}
+				else {
+					view.setY(y);
+				}
+				view.setRotation(a);
+			}
+		}
+	}
+
+	return;
+
+	for (var joint = world.m_jointList; joint; joint = joint.m_next) {
+		switch (joint.m_type) {
+			case b2Joint.e_distanceJoint: {
+				break;
+			}
+			case b2Joint.e_pulleyJoint: {
+				break;
+			}
+			default: {
+				var p = joint.GetAnchorA();
+				var element = joint.element;
+				element.x = Physics.toPixel(p.x) - (element.w >> 1);
+				element.y = Physics.toPixel(p.y) - (element.h >> 1);
+				break;
+			}
+		}
+	}
+
+	return;
+}
 
 GameUI.createUISprite = function(cantkWidget, x, y, width, height, onClose, initData) {
 	var canvas = document.createElement('canvas');
