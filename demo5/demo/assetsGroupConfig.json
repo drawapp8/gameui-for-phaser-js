@@ -1,0 +1,35 @@
+{
+  "version": "1.0",
+  "groups": {
+    "win-main.dialog": [
+      "assets/controls/button_active.png",
+      "assets/controls/button_normal.png"
+    ],
+    "win-main": [
+      "assets/controls/editor_normal_bg.png",
+      "assets/controls/editor_focus_bg.png",
+      "assets/controls/image.png"
+    ],
+    "dialog": [
+      "assets/controls/selector.png"
+    ],
+    "__base__": [
+      "index.html",
+      "myapp.js",
+      "deps.js",
+      "cantk/css/cantk.css",
+      "cantk/js/cantk-core.js",
+      "cantk/js/webapp_init.js"
+    ]
+  },
+  "scenes": {
+    "win-main": [
+      "win-main.dialog",
+      "win-main"
+    ],
+    "dialog": [
+      "win-main.dialog",
+      "dialog"
+    ]
+  }
+}
