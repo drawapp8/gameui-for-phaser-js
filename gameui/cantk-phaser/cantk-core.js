@@ -10156,7 +10156,7 @@ PathAnimation.prototype.forEach = function(visit) {
 
 window.CanTK = {};
 
-var gCantkBuildDate = "2016年 04月 14日 星期四 21:36:52 CST";console.log("cantk build date: " + gCantkBuildDate);
+var gCantkBuildDate = "2016年 04月 16日 星期六 17:04:35 CST";console.log("cantk build date: " + gCantkBuildDate);
 if(!window.CanTK) {
 	window.CanTK = {};
 }
@@ -19682,6 +19682,8 @@ UIElement.prototype.setText = function(text, notify) {
 		this.textNeedRelayout = true;
 	}
 
+	this.postRedraw();
+
 	return this;
 }
 
@@ -19809,6 +19811,10 @@ UIElement.prototype.setBgImage = function(src) {
 	return this.setImage(UIElement.IMAGE_DEFAULT, src);
 }
 
+UIElement.prototype.onImageLoad = function() {
+	this.postRedraw();
+}
+
 UIElement.prototype.setImage = function(type, src) {
 	var me = this;
 	var n = arguments.length;
@@ -19833,7 +19839,7 @@ UIElement.prototype.setImage = function(type, src) {
 	}else if(typeof src === "number" || src.length < 4) {
 		image = this.images["option_image_" + src];
 	}else {
-		image = WImage.create(src);
+		image = WImage.create(src, this.onImageLoad.bind(this));
 	}
 
 	this.images[type] = image;
@@ -22406,6 +22412,47 @@ Object.defineProperty(UIElement.prototype, "win", {
  */
 
 /**
+ * @method createEvent
+ * 
+ * 创建事件。
+ * @param {String} type 事件类型。
+ * @return {Event} 返回事件对象。
+ *      @example small frame
+ *      //创建并分发一个自定义事件。
+ *      var e = this.createEvent("customevent");
+ *      e.num = Math.round(Math.random() * 1000);
+ *      e.str = "abs";
+ *      e.obj = {"key":"value"};
+ *      this.dispatchEvent(e);
+ */
+
+/**
+ * @method dispatchEvent
+ *
+ * 分发事件，如果你调用过这个对象的addEventListener方法监听了此事件类型，事件回调函数将会被调用。
+ * @param {Event} event 事件对象。
+ * @return {Boolean} 事件是否要继续分发。
+ *
+ *      @example small frame      
+ *      //创建并分发一个自定义事件。
+ *      var e = this.createEvent("customevent");
+ *      e.num = Math.round(Math.random() * 1000);
+ *      e.str = "abs";
+ *      e.obj = {"key":"value"};
+ *      this.dispatchEvent(e);
+ *
+ */
+
+/**
+ * @method hasEventListener
+ *
+ * 判断是否有对应事件的监听者。
+ * @param {String} type 事件类型。
+ * @return {Boolean} 是否有监听者。
+ *
+ */
+
+/**
  * @method addEventListener
  *
  * 注册事件的回调函数。
@@ -22433,6 +22480,32 @@ Object.defineProperty(UIElement.prototype, "win", {
  *         }
  *         win.addEventListener("close", onClose);
  *     }
+ *
+ *
+ * 一个用户自定义事件的示例：
+ *
+ *      @example
+ *      //在场景中有两个控件"label"、"button"。 "button"用于触发"customevent"事件，"label"监听"customevent"事件。
+ *
+ *      //1.在button的onClick事件中创建并分发事件。
+ *      var e = this.createEvent("customevent");
+ *      e.num = Math.round(Math.random() * 1000);
+ *      e.str = "abs";
+ *      e.obj = {"key":"value"};
+ *      this.dispatchEvent(e);
+ *
+ *      //2.在场景的onOpen事件中为"label"注册监听"button"的"customevent"事件，提供事件回调函数。
+ *      var me = this;
+ *      var win = this.win;
+ *      var label = win.find("label");
+ *      var button = win.find("button");
+ *      button.addEventListener("customevent", function(event) {
+ *          var num = event.num;
+ *          var str = event.str;
+ *          var obj = event.obj;
+ *          this.setText("Receive customevent\n" + "num:" + num + "\nstr:" + str + "\nobj:" + JSON.stringify(obj));
+ *      }.bind(label));
+ *
  */
 
 /**
@@ -23105,6 +23178,10 @@ UIWindow.prototype.removePopupWindow = function(popup) {
 }
 
 UIWindow.prototype.setPopupWindow = function(popup) {
+	if(this === popup) {
+		return false;
+	}
+
 	if(this.popupWindow) {
 		return this.popupWindow.setPopupWindow(popup);
 	}
@@ -26486,7 +26563,6 @@ UIGridViewX.prototype.relayoutChildren = function(animHint) {
 		iter.top = r * ihs;
 		iter.w = iw;
 		iter.h = ih;
-		iter.z = i * 10;
 		iter.setUserMovable(false);
 		iter.setUserResizable(false);
 	}
@@ -28730,8 +28806,8 @@ UILabel.prototype.shapeCanBeChild = function(shape) {
 UILabel.prototype.setText = function(text) {
 	this.text = this.toText(text);
 	this.textNeedRelayout = true;
-
 	this.callOnChangedHandler(text);
+	this.postRedraw();
 
 	return this;
 }
@@ -37962,7 +38038,7 @@ UIWindowManager.prototype.closeCurrentNormalWindow = function(curWin, retInfo, s
 	var lastWin = null;
 
 	if(this.history.length < 2) {
-		if(this.history.length) {
+		if(syncClose || this.history.length) {
 			wm.history.remove(wm.current);
 			curWin.callOnClose(retInfo);
 		}

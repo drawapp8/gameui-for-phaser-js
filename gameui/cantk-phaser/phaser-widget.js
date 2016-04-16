@@ -1,4 +1,11 @@
-
+/*
+ * File:    phaser-widget.js
+ * Author:  Li XianJing <xianjimli@hotmail.com>
+ * Brief:   wrap cantk element to Phaser sprite
+ * 
+ * Copyright (c) 2015 - 2016  Holaverse Inc.
+ * 
+ */
 Phaser.Widget = function(game, x, y) {
 	this.dirty = true;
 	this.pointerDownPoint = {x:0, y:0};
@@ -59,10 +66,26 @@ Phaser.Widget.prototype.updateCanvas = function() {
 	if(this.cantkWidget) {
 		var cantkWidget = this.cantkWidget;
 		this.dirty = false;
-		this.canvas.width = cantkWidget.width;
-		this.canvas.height = cantkWidget.height;
+		var x = cantkWidget.x;
+		var y = cantkWidget.y;
+		if(this.canvas.width !== cantkWidget.width) {
+			this.canvas.width = cantkWidget.width;
+		}
+		if(this.canvas.height !== cantkWidget.height) {
+			this.canvas.height = cantkWidget.height;
+		}
+		
+		var ctx = this.context;
+		ctx.now = Date.now();
+		ctx.needRedraw = 0;
+		ctx.translate(-x, -y);
 		cantkWidget.paint(this.context);
+		this.context.translate(x, y);
 		this.updateTexture();
+		if(ctx.needRedraw > 0) {
+			this.dirty = true;
+			ctx.needRedraw = 0;
+		}
 
 		return true;
 	}
@@ -149,7 +172,6 @@ Phaser.Widget.prototype.getMoveAbsDeltaX = function() {
 
 Phaser.Widget.prototype.getMoveAbsDeltaY = function() {
 	var dy = this.pointerLastPoint.y - this.pointerDownPoint.y;
-	console.log(dy);
 
 	return dy;
 }
@@ -164,8 +186,6 @@ Phaser.Widget.prototype.onPointerDown = function(sprite, pointer) {
 	this.pointerLastPoint.y = point.y;
 	this.cantkWidget.onPointerDown(point);
 	Phaser.Widget.setActiveWidget(this);
-
-	console.log("onPointerDown:");
 
 	return true;
 }
@@ -187,7 +207,6 @@ Phaser.Widget.prototype.onPointerUp = function(sprite, pointer) {
 	this.cantkWidget.onPointerUp(point);
 	Phaser.Widget.setActiveWidget(null);
 
-	console.log("onPointerUp:");
 	return true;
 }
 

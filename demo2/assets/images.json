@@ -1,0 +1,164 @@
+{"frames": {
+
+"game_tc_bg.png":
+{
+	"frame": {"x":2,"y":245,"w":478,"h":623},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":478,"h":623},
+	"sourceSize": {"w":478,"h":623}
+},
+"game_tc_bgblack.png":
+{
+	"frame": {"x":2,"y":2,"w":20,"h":20},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":20,"h":20},
+	"sourceSize": {"w":20,"h":20}
+},
+"game_tc_btnbacka.png":
+{
+	"frame": {"x":204,"y":2,"w":88,"h":88},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":88,"h":88},
+	"sourceSize": {"w":88,"h":88}
+},
+"game_tc_btnbackb.png":
+{
+	"frame": {"x":114,"y":2,"w":88,"h":88},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":88,"h":88},
+	"sourceSize": {"w":88,"h":88}
+},
+"game_tc_btnnexta.png":
+{
+	"frame": {"x":144,"y":111,"w":140,"h":132},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":132},
+	"sourceSize": {"w":140,"h":132}
+},
+"game_tc_btnnextb.png":
+{
+	"frame": {"x":2,"y":111,"w":140,"h":132},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":132},
+	"sourceSize": {"w":140,"h":132}
+},
+"game_tc_btnrebiga.png":
+{
+	"frame": {"x":428,"y":111,"w":140,"h":132},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":132},
+	"sourceSize": {"w":140,"h":132}
+},
+"game_tc_btnrebigb.png":
+{
+	"frame": {"x":286,"y":111,"w":140,"h":132},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":132},
+	"sourceSize": {"w":140,"h":132}
+},
+"game_tc_btnreplaya.png":
+{
+	"frame": {"x":24,"y":2,"w":88,"h":88},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":88,"h":88},
+	"sourceSize": {"w":88,"h":88}
+},
+"game_tc_btnreplayb.png":
+{
+	"frame": {"x":294,"y":2,"w":88,"h":88},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":88,"h":88},
+	"sourceSize": {"w":88,"h":88}
+},
+"game_tc_gx.png":
+{
+	"frame": {"x":2,"y":1055,"w":745,"h":753},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":745,"h":753},
+	"sourceSize": {"w":745,"h":753}
+},
+"game_tc_lossbg.png":
+{
+	"frame": {"x":482,"y":245,"w":478,"h":746},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":478,"h":746},
+	"sourceSize": {"w":478,"h":746}
+},
+"game_tc_number1.png":
+{
+	"frame": {"x":2,"y":993,"w":500,"h":60},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":500,"h":60},
+	"sourceSize": {"w":500,"h":60}
+},
+"game_tc_number2.png":
+{
+	"frame": {"x":570,"y":111,"w":190,"h":23},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":190,"h":23},
+	"sourceSize": {"w":190,"h":23}
+},
+"game_tc_rewardbg.png":
+{
+	"frame": {"x":674,"y":2,"w":107,"h":107},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":107,"h":107},
+	"sourceSize": {"w":107,"h":107}
+},
+"game_tc_star.png":
+{
+	"frame": {"x":384,"y":2,"w":92,"h":87},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":92,"h":87},
+	"sourceSize": {"w":92,"h":87}
+},
+"game_tc_starh.png":
+{
+	"frame": {"x":478,"y":2,"w":92,"h":87},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":92,"h":87},
+	"sourceSize": {"w":92,"h":87}
+},
+"game_tc_textreward.png":
+{
+	"frame": {"x":783,"y":2,"w":137,"h":29},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":137,"h":29},
+	"sourceSize": {"w":137,"h":29}
+},
+"game_tc_textscore.png":
+{
+	"frame": {"x":572,"y":2,"w":100,"h":28},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":28},
+	"sourceSize": {"w":100,"h":28}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker ",
+	"version": "1.0",
+	"image": "images.png",
+	"format": "RGBA8888",
+	"size": {"w":1024,"h":2048},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:fe5f3e85fb5eed9e5d4b5409ab5752d9:1/1$"
+}
+}
