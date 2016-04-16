@@ -1,29 +1,30 @@
-This project is a Game UI for phaser-js library, it is an adapter between [phaser.js](http://phaser.io/) and [Canvas ToolKit](https://github.com/drawapp8/cantk).
 
-Online Demos
---------------------
+集成到Phaser项目
+=====================================
+1.创建Phaser项目。
 
-* [Demo1](http://gameui.duapp.com/phaserjs/demo1/)
+2.把本项目的gameui目录中的文件拷贝到Phaser项目中。
 
-* [Demo2](http://gameui.duapp.com/phaserjs/demo2/)
+3.用Hola Studio创建游戏的UI。
 
-* [Demo3](http://gameui.duapp.com/phaserjs/demo3/)
+4.在Hola Studio的文件菜单中导出『HTML文件』。
 
-Documentation
---------------------
-### [Get Started](https://github.com/drawapp8/gameui-for-phaser-js/wiki/GetStarted)
+5.把导出的zip文件中的myapp.js，assets目录拷贝到Phaser项目。
 
-### [GameUI Programming Interface](https://github.com/drawapp8/gameui-common/wiki/GameUI-Programming-Interface)
+6.在index.html中添加下列脚本：
+```
+    <script src="myapp.js"></script>
+    <script src="cantk-phaser/cantk-core.js"></script>
+    <script src="cantk-phaser/phaser-widget.js"></script>
+    <script src="cantk-phaser/phaser-cantk.js"></script>
+```
 
-### [GameUI Animation](https://github.com/drawapp8/gameui-common/wiki/GameUI-Animation)
+7.初始化。
+```	
+	Phaser.CanTK.init(game, guiData);
+```
 
-### [Integration With Phaser](https://github.com/drawapp8/gameui-for-phaser-js/wiki/Integration-With-Phaser)
-
-### [如何集成到Phaser？](https://github.com/drawapp8/gameui-for-phaser-js/wiki/%E5%A6%82%E4%BD%95%E9%9B%86%E6%88%90%E5%88%B0Phaser%EF%BC%9F)
-
-UI Editor
---------------------
-
-[Game Builder](http://gamebuilder.duapp.com) is an online Game UI Builder.
-
-
+7.打开窗口。
+```	
+	Phaser.CanTK.openWindow("dialog", 0, 0, game.width, game.height);
+```
