@@ -66,26 +66,31 @@ Phaser.Widget.prototype.updateCanvas = function() {
 	if(this.cantkWidget) {
 		var cantkWidget = this.cantkWidget;
 		this.dirty = false;
-		var x = cantkWidget.x;
-		var y = cantkWidget.y;
-		if(this.canvas.width !== cantkWidget.width) {
-			this.canvas.width = cantkWidget.width;
+		var x = cantkWidget.left;
+		var y = cantkWidget.top;
+		var w = cantkWidget.w;
+		var h = cantkWidget.h;
+
+		if(this.canvas.width !== w) {
+			this.canvas.width = w;
 		}
-		if(this.canvas.height !== cantkWidget.height) {
-			this.canvas.height = cantkWidget.height;
+		if(this.canvas.height !== h) {
+			this.canvas.height = h;
 		}
 		
 		var ctx = this.context;
+		ctx.clearRect(0, 0, w, h);
 		ctx.now = Date.now();
 		ctx.needRedraw = 0;
 		ctx.translate(-x, -y);
-		cantkWidget.paint(this.context);
-		this.context.translate(x, y);
+		cantkWidget.paint(ctx);
+		ctx.translate(x, y);
 		this.updateTexture();
 		if(ctx.needRedraw > 0) {
 			this.dirty = true;
 			ctx.needRedraw = 0;
 		}
+
 
 		return true;
 	}
